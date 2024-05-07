@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload new File</title>
+</head>
+<body>
+    <h1>Upload new File</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="file" name="file">
+        <button type="button" onclick="uploadFile()">Upload</button>
+    </form>
+    <h2 id="result"></h2>
+    <script>
+        function uploadFile() {
+            const form = document.getElementById('upload-form');
+            const formData = new FormData(form);
+            fetch('/analyze', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const result = document.getElementById('result');
+                result.innerHTML = `tomatoes fresh: ${data.tomatoes_fresh}<br>
+                                    tomatoes fresh medium: ${data.tomatoes_fresh_medium}<br>
+                                    tomatoes rotten: ${data.tomatoes_rotten}`;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
