@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Tomatech</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora">
+
+</head>
+
+<body>
+    <nav>
+        <div class="nav-logo">
+            <p>Tomatech</p>
+        </div>
+        <div class="nav-content">
+            <a href="#hero">Home</a>
+            <a href="{{ url_for('check') }}">Check</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+    <section class="hero">
+        <p>Hello, welcome to <b>Tomatech</b></p>
+        <h1>Check your if your tomatoes is good or not <img src="{{ url_for('static', filename='img/tomato.svg') }}" alt="" class="animated-logo">
+        </h1>
+        <a href="{{ url_for('check') }}" class="white-btn">Start checking</a>
+    </section>
+    <section class="freature" id="contact">
+        <div>
+            <strong>Contact Us</strong>
+        </div>
+        <h1>Need a help?</h1>
+        <a href="">Contact <strong>Us</strong><img src="{{ url_for('static', filename='img/icons/externallink.svg') }}" alt=""></a>
+    </section>
+    <footer>
+        <p>Developed by Luca ZH</p>
+    </footer>
+</body>
+
+</html>
