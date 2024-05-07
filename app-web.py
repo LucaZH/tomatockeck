@@ -1,7 +1,7 @@
 import os,cnn
 
 import numpy as np
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory, url_for
 
 
 app = Flask(__name__)
@@ -12,8 +12,13 @@ tomato_checker = cnn.TomatoChecker(
     img_width=180,
     img_height=180
 )
-@app.route('/', methods=['GET'])
-def upload_file():
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/check', methods=['GET'])
+def check():
     return render_template('upload.html')
 
 @app.route('/analyze', methods=['POST'])
@@ -26,14 +31,20 @@ def analyze():
     if file:
         filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filename)
+        
         result = tomato_checker.predict_tomato_type(filename)
         
         for key in result:
             if isinstance(result[key], np.float32):
                 result[key] = round(float(result[key]),5)
-        
+        result['image_url'] = url_for('uploaded_file', filename=file.filename)
         print(result)
         return jsonify(result)
 
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 if __name__ == '__main__':
     app.run(debug=True)
