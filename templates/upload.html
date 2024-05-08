@@ -1,16 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload new File</title>
+    <title>Check tomatoes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/check.css') }}">
 </head>
 <body>
-    <h1>Upload new File</h1>
-    <form id="upload-form" enctype="multipart/form-data">
-        <input type="file" id="file" name="file">
-        <button type="button" onclick="uploadFile()">Upload</button>
-    </form>
-    <h2 id="result"></h2>
+    <nav>
+        <div class="nav-logo">
+            <p>Tomatoescheck</p>
+        </div>
+        <div class="nav-content">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('check') }}">Check</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+    <section class="tomat-check">
+        <div class="form-container">
+            <form id="upload-form" enctype="multipart/form-data">
+                <input type="file" id="file" name="file">
+                <p>Drag your files here or click in this area.</p>
+                <button type="button" id="upload-button" onclick="uploadFile()">Upload</button>
+            </form>
+        </div>
+        <div class="result-container">
+            <h2>ANALYZE RESULT</h2> 
+            <div id="image-container">
+                <img src="{{ url_for('static', filename='img/tomato.svg') }}" alt="Default Image" class="result-image">
+            </div>
+            <div id="result"></div> 
+            <div id="tomato-info">
+                <p id="tomato-fresh">Tomatoes fresh: </p>
+                <p id="tomato-fresh-medium">Tomatoes fresh medium: </p>
+                <p id="tomato-rotten">Tomatoes rotten: </p>
+            </div>
+        </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
     <script>
+        $(document).ready(function(){
+            $('form input').change(function () {
+                $('form p').text(this.files.length + " file(s) selected");
+            });
+        });
+
         function uploadFile() {
             const form = document.getElementById('upload-form');
             const formData = new FormData(form);
@@ -21,9 +56,23 @@
             .then(response => response.json())
             .then(data => {
                 const result = document.getElementById('result');
-                result.innerHTML = `tomatoes fresh: ${data.tomatoes_fresh}<br>
-                                    tomatoes fresh medium: ${data.tomatoes_fresh_medium}<br>
-                                    tomatoes rotten: ${data.tomatoes_rotten}`;
+                const imageContainer = document.getElementById('image-container');
+                const tomatoFresh = document.getElementById('tomato-fresh');
+                const tomatoFreshMedium = document.getElementById('tomato-fresh-medium');
+                const tomatoRotten = document.getElementById('tomato-rotten');
+                
+                result.textContent = '';
+                imageContainer.innerHTML = '';
+                
+                const img = document.createElement('img');
+                img.src = data.image_url; 
+                img.alt = 'Uploaded Image';
+                img.classList.add('result-image');
+                imageContainer.appendChild(img);
+                console.log(data)
+                tomatoFresh.textContent = `Tomatoes fresh: ${data.tomatoes_fresh}`;
+                tomatoFreshMedium.textContent = `Tomatoes fresh medium: ${data.tomatoes_fresh_medium}`;
+                tomatoRotten.textContent = `Tomatoes rotten: ${data.tomatoes_rotten}`;
             })
             .catch((error) => {
                 console.error('Error:', error);
