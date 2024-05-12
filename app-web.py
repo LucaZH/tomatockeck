@@ -36,7 +36,7 @@ def analyze():
         
         for key in result:
             if isinstance(result[key], np.float32):
-                result[key] = round(float(result[key]),5)
+                result[key] = round(float(result[key])*100,4)
         result['image_url'] = url_for('uploaded_file', filename=file.filename)
         print(result)
         return jsonify(result)
