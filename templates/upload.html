@@ -31,9 +31,9 @@
             </div>
             <div id="result"></div> 
             <div id="tomato-info">
-                <p id="tomato-fresh">Tomatoes fresh: </p>
-                <p id="tomato-fresh-medium">Tomatoes fresh medium: </p>
-                <p id="tomato-rotten">Tomatoes rotten: </p>
+                <p id="tomato-fresh">Fresh: </p>
+                <p id="tomato-fresh-medium">Fresh medium: </p>
+                <p id="tomato-rotten">Rotten: </p>
             </div>
         </div>
     </section>
@@ -70,9 +70,9 @@
                 img.classList.add('result-image');
                 imageContainer.appendChild(img);
                 console.log(data)
-                tomatoFresh.textContent = `Tomatoes fresh: ${data.tomatoes_fresh}`;
-                tomatoFreshMedium.textContent = `Tomatoes fresh medium: ${data.tomatoes_fresh_medium}`;
-                tomatoRotten.textContent = `Tomatoes rotten: ${data.tomatoes_rotten}`;
+                tomatoFresh.textContent = `Fresh: ${data.tomatoes_fresh}%`;
+                tomatoFreshMedium.textContent = `Fresh medium: ${data.tomatoes_fresh_medium}%`;
+                tomatoRotten.textContent = `Rotten: ${data.tomatoes_rotten}%`;
             })
             .catch((error) => {
                 console.error('Error:', error);
